@@ -1,9 +1,12 @@
-package org.arwan.armrsim;
+package org.arwan.armrsim.mapreduce;
 
 public class ArMRSettings {
     public static boolean heterogeneous = false;
     public static int replication = 3;
     public static int jobReduces = 2;
+    public static int numHost = 1;
+    public static int numCore = 1;
+
 
     /*
     https://ercoppa.github.io/HadoopInternals/HadoopConfigurationParameters.html

@@ -59,7 +59,8 @@ public class DataAwareSchedulingAlgorithmExample extends DHEFTPlanningAlgorithmE
             /**
              * Should change this based on real physical path
              */
-            String daxPath = "/Users/weiweich/NetBeansProjects/WorkflowSim-1.0/config/dax/Montage_100.xml";
+            String currentDir = System.getProperty("user.dir");
+            String daxPath = currentDir + "/config/dax/Montage_100.xml";
 
             File daxFile = new File(daxPath);
             if (!daxFile.exists()) {
@@ -72,7 +73,7 @@ public class DataAwareSchedulingAlgorithmExample extends DHEFTPlanningAlgorithmE
              * algorithm should be static such that the scheduler would not
              * override the result of the planner
              */
-            Parameters.SchedulingAlgorithm sch_method = Parameters.SchedulingAlgorithm.DATA;
+            Parameters. SchedulingAlgorithm sch_method = Parameters.SchedulingAlgorithm.DATA;
             Parameters.PlanningAlgorithm pln_method = Parameters.PlanningAlgorithm.INVALID;
             ReplicaCatalog.FileSystem file_system = ReplicaCatalog.FileSystem.LOCAL;
 

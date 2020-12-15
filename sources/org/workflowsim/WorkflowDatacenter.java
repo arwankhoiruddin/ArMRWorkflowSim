@@ -169,10 +169,25 @@ public class WorkflowDatacenter extends Datacenter {
      * @param vm
      */
     private void updateTaskExecTime(Job job, Vm vm) {
+        // arwan
+        // should include the noise of CPU and tasks here
         double start_time = job.getExecStartTime();
         for (Task task : job.getTaskList()) {
             task.setExecStartTime(start_time);
-            double task_runtime = task.getCloudletLength() / vm.getMips();
+
+            double cloudletLength = task.getCloudletLength();
+            double mips = vm.getMips();
+
+
+            // add delay due to task speculation
+            // need to create special class to handle this problem
+
+            // add variation in mips due to multi-tenancy
+            // need to create special class to handle this problem as well
+
+            System.out.println("cloudlet length: " + cloudletLength + " mips: " + mips);
+            // add heterogeneity and CPU noise
+            double task_runtime = cloudletLength / mips;
             start_time += task_runtime;
             //Because CloudSim would not let us update end time here
             task.setTaskFinishTime(start_time);
@@ -184,7 +199,7 @@ public class WorkflowDatacenter extends Datacenter {
      * condor-io) add files to the local storage; For a shared file system (such
      * as NFS) add files to the shared storage
      *
-     * @param cl, the job
+     * @param job
      * @pre $none
      * @post $none
      */

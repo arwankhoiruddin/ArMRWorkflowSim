@@ -425,7 +425,7 @@ public final class WorkflowEngine extends SimEntity {
      * Sets the job received list.
      *
      * @param <T> the generic type
-     * @param cloudletReceivedList the new job received list
+     * @param jobsReceivedList the new job received list
      */
     private <T extends Cloudlet> void setJobsReceivedList(List<T> jobsReceivedList) {
         this.jobsReceivedList = jobsReceivedList;

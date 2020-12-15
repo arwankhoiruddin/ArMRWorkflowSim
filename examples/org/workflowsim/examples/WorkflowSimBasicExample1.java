@@ -21,16 +21,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
-import org.cloudbus.cloudsim.Cloudlet;
-import org.cloudbus.cloudsim.CloudletSchedulerSpaceShared;
-import org.cloudbus.cloudsim.DatacenterCharacteristics;
-import org.cloudbus.cloudsim.HarddriveStorage;
-import org.cloudbus.cloudsim.Host;
-import org.cloudbus.cloudsim.Log;
-import org.cloudbus.cloudsim.Pe;
-import org.cloudbus.cloudsim.Storage;
-import org.cloudbus.cloudsim.VmAllocationPolicySimple;
-import org.cloudbus.cloudsim.VmSchedulerTimeShared;
+
+import org.cloudbus.cloudsim.*;
 import org.cloudbus.cloudsim.core.CloudSim;
 import org.cloudbus.cloudsim.provisioners.BwProvisionerSimple;
 import org.cloudbus.cloudsim.provisioners.PeProvisionerSimple;
@@ -97,7 +89,9 @@ public class WorkflowSimBasicExample1 {
             /**
              * Should change this based on real physical path
              */
-            String daxPath = "/Users/weiweich/NetBeansProjects/WorkflowSim-1.0/config/dax/Montage_100.xml";
+            String currentDir = System.getProperty("user.dir");
+            System.out.println("Current directory: " + currentDir);
+            String daxPath = currentDir + "/config/dax/MapReduce.xml";
             File daxFile = new File(daxPath);
             if (!daxFile.exists()) {
                 Log.printLine("Warning: Please replace daxPath with the physical path in your working environment!");
@@ -135,7 +129,7 @@ public class WorkflowSimBasicExample1 {
             // before creating any entities.
             int num_user = 1;   // number of grid users
             Calendar calendar = Calendar.getInstance();
-            boolean trace_flag = false;  // mean trace events
+            boolean trace_flag = true;  // mean trace events
 
             // Initialize the CloudSim library
             CloudSim.init(num_user, calendar, trace_flag);
@@ -145,7 +139,7 @@ public class WorkflowSimBasicExample1 {
             /**
              * Create a WorkflowPlanner with one schedulers.
              */
-            WorkflowPlanner wfPlanner = new WorkflowPlanner("planner_0", 1);
+            WorkflowPlanner wfPlanner = new WorkflowPlanner("planner_0", 2);
             /**
              * Create a WorkflowEngine.
              */

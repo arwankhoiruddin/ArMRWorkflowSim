@@ -1,2 +1,4 @@
-package org.arwan.armrsim;public class ArMRNoise {
+package org.arwan.armrsim.hetero;
+
+public class ArMRNoise {
 }

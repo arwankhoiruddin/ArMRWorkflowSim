@@ -812,6 +812,7 @@ public class CloudSim {
 		running = true;
 		// Start all the entities
 		for (SimEntity ent : entities) {
+			System.out.println("Entity ID: " + ent.getId());
 			ent.startEntity();
 		}
 
