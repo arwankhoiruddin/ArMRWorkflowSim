@@ -1,4 +1,4 @@
-package org.arwan.armrsim.mapreduce;
+package org.armrsim.mapreduce;
 
 public enum JobType {
     MAP, REDUCE, SHUFFLE

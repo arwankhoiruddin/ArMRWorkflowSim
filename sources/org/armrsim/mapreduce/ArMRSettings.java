@@ -1,4 +1,4 @@
-package org.arwan.armrsim.mapreduce;
+package org.armrsim.mapreduce;
 
 public class ArMRSettings {
     public static boolean heterogeneous = false;
@@ -6,6 +6,7 @@ public class ArMRSettings {
     public static int jobReduces = 2;
     public static int numHost = 1;
     public static int numCore = 1;
+
 
 
     /*

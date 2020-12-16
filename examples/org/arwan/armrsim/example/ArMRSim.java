@@ -13,24 +13,15 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.arwan.armrsim;
+package org.arwan.armrsim.example;
 
-import java.io.File;
-import java.io.FileWriter;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.LinkedList;
 import java.util.List;
 
-import org.arwan.armrsim.mapreduce.ArMRPreps;
-import org.arwan.armrsim.mapreduce.ArMRSettings;
-import org.arwan.armrsim.mapreduce.JobType;
+import org.armrsim.mapreduce.ArMRPreps;
 import org.cloudbus.cloudsim.*;
 import org.cloudbus.cloudsim.core.CloudSim;
-import org.cloudbus.cloudsim.provisioners.BwProvisionerSimple;
-import org.cloudbus.cloudsim.provisioners.PeProvisionerSimple;
-import org.cloudbus.cloudsim.provisioners.RamProvisionerSimple;
 import org.workflowsim.CondorVM;
 import org.workflowsim.Task;
 import org.workflowsim.WorkflowDatacenter;
@@ -43,9 +34,7 @@ import org.workflowsim.utils.Parameters;
 import org.workflowsim.utils.ReplicaCatalog;
 import org.workflowsim.utils.Parameters.ClassType;
 
-import static org.arwan.armrsim.mapreduce.ArMRPreps.*;
-import static org.arwan.armrsim.mapreduce.ArMRSettings.numCore;
-import static org.arwan.armrsim.mapreduce.ArMRSettings.numHost;
+import static org.armrsim.mapreduce.ArMRPreps.*;
 
 /**
  * This WorkflowSimExample creates a workflow planner, a workflow engine, and

@@ -1,6 +1,6 @@
-package org.arwan.armrsim.hetero;
+package org.armrsim.hetero;
 
-import org.arwan.armrsim.mapreduce.ArMRSettings;
+import org.armrsim.mapreduce.ArMRSettings;
 
 import java.util.Random;
 

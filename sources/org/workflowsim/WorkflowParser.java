@@ -137,6 +137,8 @@ public final class WorkflowParser {
 
         try {
 
+            // arwan
+            // set map, reduce and shuffle task here
             SAXBuilder builder = new SAXBuilder();
             //parse using builder to get DOM representation of the XML file
             Document dom = builder.build(new File(path));

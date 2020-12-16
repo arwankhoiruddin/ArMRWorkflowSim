@@ -1,4 +1,4 @@
-package org.arwan.armrsim.mapreduce;
+package org.armrsim.mapreduce;
 
 import org.cloudbus.cloudsim.*;
 import org.cloudbus.cloudsim.provisioners.BwProvisionerSimple;
@@ -12,8 +12,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import static org.arwan.armrsim.mapreduce.ArMRSettings.numCore;
-import static org.arwan.armrsim.mapreduce.ArMRSettings.numHost;
+import static org.armrsim.mapreduce.ArMRSettings.numCore;
+import static org.armrsim.mapreduce.ArMRSettings.numHost;
 
 public class ArMRPreps {
     private static String writeJobLine(int index, JobType jobType, double runTime) {
