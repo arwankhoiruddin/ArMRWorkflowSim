@@ -2,27 +2,25 @@ package org.armrsim.mapreduce;
 
 import org.cloudbus.cloudsim.Cloudlet;
 import org.cloudbus.cloudsim.UtilizationModel;
+import org.cloudbus.cloudsim.UtilizationModelFull;
 
 public class MRTask extends Cloudlet {
+
+    public static UtilizationModel utilizationModel = new UtilizationModelFull();
 
     public MRTask(
             final int cloudletId,
             final long cloudletLength,
-            final int pesNumber,
-            final long cloudletFileSize,
-            final long cloudletOutputSize,
-            final UtilizationModel utilizationModelCpu,
-            final UtilizationModel utilizationModelRam,
-            final UtilizationModel utilizationModelBw) {
+            final JobType jobType) {
         super(
                 cloudletId,
                 cloudletLength,
-                pesNumber,
-                cloudletFileSize,
-                cloudletOutputSize,
-                utilizationModelCpu,
-                utilizationModelRam,
-                utilizationModelBw,
+                1, // number of CPU per task is only one
+                100, // won't consider file size
+                100, // won't consider file output
+                utilizationModel,
+                utilizationModel,
+                utilizationModel,
                 false);
         vmId = -1;
         accumulatedBwCost = 0.0;

@@ -178,7 +178,7 @@ public class WorkflowDatacenter extends Datacenter {
             double cloudletLength = task.getCloudletLength();
             double mips = vm.getMips();
 
-
+            // arwan
             // add delay due to task speculation
             // need to create special class to handle this problem
 

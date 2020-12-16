@@ -48,9 +48,6 @@ import static org.armrsim.mapreduce.ArMRPreps.*;
 public class ArMRSim {
 
 
-
-
-
     ////////////////////////// STATIC METHODS ///////////////////////
     /**
      * Creates main() to run this example This example has only one datacenter
