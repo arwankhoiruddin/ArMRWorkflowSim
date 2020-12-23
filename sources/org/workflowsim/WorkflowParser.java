@@ -22,6 +22,10 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import org.armrsim.mapreduce.ArMRSettings;
+import org.armrsim.mapreduce.Reduce;
+import org.armrsim.mapreduce.Shuffle;
 import org.cloudbus.cloudsim.Log;
 import org.jdom2.Document;
 import org.jdom2.Element;
@@ -144,12 +148,14 @@ public final class WorkflowParser {
             Document dom = builder.build(new File(path));
             Element root = dom.getRootElement();
             List<Element> list = root.getChildren();
+            int taskID = 0;
             for (Element node : list) {
                 switch (node.getName().toLowerCase()) {
                     case "job":
                         long length = 0;
                         String nodeName = node.getAttributeValue("id");
                         String nodeType = node.getAttributeValue("name");
+
                         /**
                          * capture runtime. If not exist, by default the runtime
                          * is 0.1. Otherwise CloudSim would ignore this task.
@@ -167,6 +173,17 @@ public final class WorkflowParser {
                             Log.printLine("Cannot find runtime for " + nodeName + ",set it to be 0");
                         }   //multiple the scale, by default it is 1.0
                         length *= Parameters.getRuntimeScale();
+
+                        // add job to taskList
+                        if (nodeType.equals("MAP"))
+                            ArMRSettings.taskList.add(new org.armrsim.mapreduce.Map(taskID, (int) length));
+                        else if (nodeType.equals("RED"))
+                            ArMRSettings.taskList.add(new org.armrsim.mapreduce.Reduce(taskID, (int) length));
+                        else
+                            ArMRSettings.taskList.add(new org.armrsim.mapreduce.Shuffle(taskID, (int) length));
+
+                        taskID++;
+
                         List<Element> fileList = node.getChildren();
                         List<FileItem> mFileList = new ArrayList<>();
                         for (Element file : fileList) {
@@ -244,10 +261,29 @@ public final class WorkflowParser {
 
                             }
                         }
+
+                        // change to map, reduce or shuffle here
+
                         Task task;
+
+                        // add job to taskList
+                        if (nodeType.equals("MAP"))
+                            ArMRSettings.taskList.add(new org.armrsim.mapreduce.Map(taskID, (int) length));
+                        else if (nodeType.equals("RED"))
+                            ArMRSettings.taskList.add(new org.armrsim.mapreduce.Reduce(taskID, (int) length));
+                        else
+                            ArMRSettings.taskList.add(new org.armrsim.mapreduce.Shuffle(taskID, (int) length));
+
+
                         //In case of multiple workflow submission. Make sure the jobIdStartsFrom is consistent.
                         synchronized (this) {
-                            task = new Task(this.jobIdStartsFrom, length);
+//                            task = new Task(this.jobIdStartsFrom, length);
+                            if (nodeType.equals("MAP"))
+                                task = new org.armrsim.mapreduce.Map(this.jobIdStartsFrom, (int) length);
+                            else if (nodeType.equals("RED"))
+                                task = new org.armrsim.mapreduce.Reduce(this.jobIdStartsFrom, (int) length);
+                            else
+                                task = new org.armrsim.mapreduce.Shuffle(this.jobIdStartsFrom, (int) length);
                             this.jobIdStartsFrom++;
                         }
                         task.setType(nodeType);

@@ -8,9 +8,15 @@
 
 package org.cloudbus.cloudsim.core;
 
+import org.armrsim.mapreduce.Map;
+import org.armrsim.mapreduce.Reduce;
 import org.cloudbus.cloudsim.Log;
 import org.cloudbus.cloudsim.NetworkTopology;
 import org.cloudbus.cloudsim.core.predicates.Predicate;
+import org.workflowsim.Task;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class represents a simulation entity. An entity handles events and can send events to other

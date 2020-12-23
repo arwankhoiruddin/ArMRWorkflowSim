@@ -3,10 +3,12 @@ package org.armrsim.mapreduce;
 import org.cloudbus.cloudsim.Cloudlet;
 import org.cloudbus.cloudsim.UtilizationModel;
 import org.cloudbus.cloudsim.UtilizationModelFull;
+import org.workflowsim.Job;
+import org.workflowsim.Task;
 
-public class MRTask extends Cloudlet {
+public class MRTask extends Job {
 
-    public static UtilizationModel utilizationModel = new UtilizationModelFull();
+    final JobType jobType;
 
     public MRTask(
             final int cloudletId,
@@ -14,16 +16,9 @@ public class MRTask extends Cloudlet {
             final JobType jobType) {
         super(
                 cloudletId,
-                cloudletLength,
-                1, // number of CPU per task is only one
-                100, // won't consider file size
-                100, // won't consider file output
-                utilizationModel,
-                utilizationModel,
-                utilizationModel,
-                false);
-        vmId = -1;
-        accumulatedBwCost = 0.0;
-        costPerBw = 0.0;
+                cloudletLength
+                );
+
+        this.jobType = jobType;
     }
 }

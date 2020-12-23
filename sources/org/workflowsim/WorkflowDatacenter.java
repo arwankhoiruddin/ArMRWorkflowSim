@@ -178,6 +178,8 @@ public class WorkflowDatacenter extends Datacenter {
             double cloudletLength = task.getCloudletLength();
             double mips = vm.getMips();
 
+            cloudletLength*=1.5;
+
             // arwan
             // add delay due to task speculation
             // need to create special class to handle this problem
@@ -185,7 +187,7 @@ public class WorkflowDatacenter extends Datacenter {
             // add variation in mips due to multi-tenancy
             // need to create special class to handle this problem as well
 
-            System.out.println("cloudlet length: " + cloudletLength + " mips: " + mips);
+//            System.out.println("cloudlet length: " + cloudletLength + " mips: " + mips);
             // add heterogeneity and CPU noise
             double task_runtime = cloudletLength / mips;
             start_time += task_runtime;

@@ -20,14 +20,12 @@ public class ArMRPreps {
         // based on job type
         StringBuffer tmp = new StringBuffer();
         if (jobType == JobType.MAP) {
-            tmp.append("<job id=\"MAP00" + index + "\"");
+            tmp.append("<job id=\"MAP00" + index + "\" namespace=\"MapReduce\" name=\"MAP\" version=\"1.0\"");
         } else if (jobType == JobType.SHUFFLE) {
-            tmp.append("<job id=\"SHUF\"");
+            tmp.append("<job id=\"SHUF\" namespace=\"MapReduce\" name=\"SHU\" version=\"1.0\"");
         } else {
-            tmp.append("<job id=\"RED00" + index + "\"");
+            tmp.append("<job id=\"RED00" + index + "\" namespace=\"MapReduce\" name=\"RED\" version=\"1.0\"");
         }
-
-        tmp.append(" namespace=\"MapReduce\" name=\"MapReduceSimulation\" version=\"1.0\"");
 
         // add runtime
         tmp.append(" runtime=\"" + runTime + "\"></job>\n");
@@ -110,7 +108,7 @@ public class ArMRPreps {
 
         for (int i = 1; i <= numHost; i++) {
             List<Pe> peList1 = new ArrayList<>();
-            int mips = 2000;
+            int mips = 10000;
             // 3. Create PEs and add these into the list.
             //for a quad-core machine, a list of 4 PEs is required:
             for (int core=0; core < numCore; core++) {

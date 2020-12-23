@@ -17,6 +17,9 @@ package org.workflowsim;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.armrsim.mapreduce.Map;
+import org.armrsim.mapreduce.Reduce;
 import org.cloudbus.cloudsim.Log;
 import org.cloudbus.cloudsim.core.CloudSimTags;
 import org.cloudbus.cloudsim.core.SimEntity;
@@ -135,6 +138,7 @@ public final class WorkflowPlanner extends SimEntity {
             case WorkflowSimTags.START_SIMULATION:
                 getWorkflowParser().parse();
                 setTaskList(getWorkflowParser().getTaskList());
+                System.out.println("Start simulation");
                 processPlanning();
                 processImpactFactors(getTaskList());
                 sendNow(getClusteringEngineId(), WorkflowSimTags.JOB_SUBMIT, getTaskList());

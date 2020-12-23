@@ -1,13 +1,20 @@
 package org.armrsim.mapreduce;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ArMRSettings {
     public static boolean heterogeneous = false;
-    public static int replication = 3;
+    public static int replication = 3; // default: 3
     public static int jobReduces = 2;
-    public static int numHost = 1;
-    public static int numCore = 1;
+    public static int numHost = 4;
+    public static int numCore = 12;
 
+    // number of vm
+    // this will be the processing VM
+    public static int vmNum = 2;
 
+    public static List<MRTask> taskList = new ArrayList<>();
 
     /*
     https://ercoppa.github.io/HadoopInternals/HadoopConfigurationParameters.html

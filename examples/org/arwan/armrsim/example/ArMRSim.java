@@ -20,6 +20,8 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.armrsim.mapreduce.ArMRPreps;
+import org.armrsim.mapreduce.Map;
+import org.armrsim.mapreduce.Reduce;
 import org.cloudbus.cloudsim.*;
 import org.cloudbus.cloudsim.core.CloudSim;
 import org.workflowsim.CondorVM;
@@ -35,6 +37,7 @@ import org.workflowsim.utils.ReplicaCatalog;
 import org.workflowsim.utils.Parameters.ClassType;
 
 import static org.armrsim.mapreduce.ArMRPreps.*;
+import static org.armrsim.mapreduce.ArMRSettings.vmNum;
 
 /**
  * This WorkflowSimExample creates a workflow planner, a workflow engine, and
@@ -71,7 +74,6 @@ public class ArMRSim {
                  * the data center or the host doesn't have sufficient resources the
                  * exact vmNum would be smaller than that. Take care.
                  */
-                int vmNum = 20;//number of vms;
                 String daxPath = ArMRPreps.daxPath();
 
                 /**
@@ -159,6 +161,12 @@ public class ArMRSim {
                 + "Time" + indent + "Start Time" + indent + "Finish Time" + indent + "Depth");
         DecimalFormat dft = new DecimalFormat("###.##");
         for (Job job : list) {
+            if (job instanceof Map)
+                System.out.println("Map task");
+            else if (job instanceof Reduce)
+                System.out.println("Reduce task");
+            else
+                System.out.println("Not both");
             Log.print(indent + job.getCloudletId() + indent + indent);
             if (job.getClassType() == ClassType.STAGE_IN.value) {
                 Log.print("Stage-in");

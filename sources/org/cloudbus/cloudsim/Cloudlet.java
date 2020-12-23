@@ -448,6 +448,14 @@ public class Cloudlet {
 		}
 
 		this.cloudletLength = cloudletLength;
+		// test: add some length
+//		System.out.println("cloudlet length: " + cloudletLength);
+
+		// add delay due to speculation
+
+		// also due to multi-tenancy
+
+//		this.cloudletLength = cloudletLength + 10000;
 		return true;
 	}
 
@@ -789,6 +797,7 @@ public class Cloudlet {
 	 */
 	public void setExecStartTime(final double clockTime) {
 		execStartTime = clockTime;
+
 		if (record) {
 			write("Sets the execution start time to " + num.format(clockTime));
 		}
