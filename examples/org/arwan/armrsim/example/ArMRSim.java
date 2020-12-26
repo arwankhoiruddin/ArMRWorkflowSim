@@ -22,6 +22,7 @@ import java.util.List;
 import org.armrsim.mapreduce.ArMRPreps;
 import org.armrsim.mapreduce.Map;
 import org.armrsim.mapreduce.Reduce;
+import org.armrsim.mapreduce.Shuffle;
 import org.cloudbus.cloudsim.*;
 import org.cloudbus.cloudsim.core.CloudSim;
 import org.workflowsim.CondorVM;
@@ -161,12 +162,20 @@ public class ArMRSim {
                 + "Time" + indent + "Start Time" + indent + "Finish Time" + indent + "Depth");
         DecimalFormat dft = new DecimalFormat("###.##");
         for (Job job : list) {
-            if (job instanceof Map)
-                System.out.println("Map task");
-            else if (job instanceof Reduce)
-                System.out.println("Reduce task");
-            else
-                System.out.println("Not both");
+
+            List taskList = job.getTaskList();
+
+            for (Object task: taskList) {
+                if (task instanceof Map) {
+                    Log.print("M");
+                } else if (task instanceof Reduce) {
+                    Log.print("R");
+                } else if (task instanceof Shuffle) {
+                    Log.print("S");
+                }
+            }
+            Log.print(indent);
+
             Log.print(indent + job.getCloudletId() + indent + indent);
             if (job.getClassType() == ClassType.STAGE_IN.value) {
                 Log.print("Stage-in");
@@ -185,8 +194,7 @@ public class ArMRSim {
             } else if (job.getCloudletStatus() == Cloudlet.FAILED) {
                 Log.print("FAILED");
                 Log.printLine(indent + indent + job.getResourceId() + indent + indent + indent + job.getVmId()
-                        + indent + indent + indent + dft.format(job.getActualCPUTime())
-                        + indent + indent + dft.format(job.getExecStartTime()) + indent + indent + indent
+                         + indent + indent + dft.format(job.getExecStartTime()) + indent + indent + indent
                         + dft.format(job.getFinishTime()) + indent + indent + indent + job.getDepth());
             }
         }

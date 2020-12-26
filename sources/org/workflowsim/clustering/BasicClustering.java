@@ -170,6 +170,14 @@ public class BasicClustering implements ClusteringInterface {
             Job job = new Job(idIndex, length/*, inputFileSize, outputFileSize*/);
             job.setClassType(ClassType.COMPUTE.value);
             for (Task task : taskList) {
+
+                // arwan
+                if (task instanceof org.armrsim.mapreduce.Map) {
+                    System.out.println("Map task");
+                } else {
+                    System.out.println("Other");
+                }
+
                 length += task.getCloudletLength();
 
                 userId = task.getUserId();

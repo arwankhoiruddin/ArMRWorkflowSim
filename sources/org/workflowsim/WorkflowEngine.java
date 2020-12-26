@@ -273,7 +273,6 @@ public final class WorkflowEngine extends SimEntity {
      * @post $none
      */
     protected void submitJobs() {
-
         List<Job> list = getJobsList();
         Map<Integer, List> allocationList = new HashMap<>();
         for (int i = 0; i < getSchedulers().size(); i++) {
