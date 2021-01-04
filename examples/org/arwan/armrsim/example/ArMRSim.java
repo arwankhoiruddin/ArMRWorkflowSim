@@ -61,8 +61,7 @@ public class ArMRSim {
         int dataSize = 1*1024;
         int blockSize = 64;
         prepareData(dataSize, blockSize);
-
-        runSimulation(1);
+//        runSimulation(1);
     }
 
     public static void runSimulation(int numExperiments) {

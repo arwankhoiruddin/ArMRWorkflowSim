@@ -16,13 +16,25 @@ import static org.armrsim.mapreduce.ArMRSettings.numCore;
 import static org.armrsim.mapreduce.ArMRSettings.numHost;
 
 public class ArMRPreps {
+    private static int dataSize;
+    private static int blockSize;
+
     private static String writeJobLine(int index, JobType jobType, double runTime) {
         // based on job type
         StringBuffer tmp = new StringBuffer();
         if (jobType == JobType.MAP) {
             tmp.append("<job id=\"MAP00" + index + "\" namespace=\"MapReduce\" name=\"MAP\" version=\"1.0\"");
         } else if (jobType == JobType.SHUFFLE) {
-            tmp.append("<job id=\"SHUF\" namespace=\"MapReduce\" name=\"SHU\" version=\"1.0\"");
+            int numDataBlocks = dataSize / blockSize;
+            if (dataSize % blockSize > 0) numDataBlocks++;
+            // we have map_sort_spill_percent setting
+            // so we put the dependency based on that setting
+            int firstWave = (int) Math.round(numDataBlocks * ArMRSettings.map_sort_spill_percent);
+            // dependency of Shuffle to Map
+            if (index < firstWave)
+                tmp.append("<job id=\"SHUF0\" namespace=\"MapReduce\" name=\"SHU\" version=\"1.0\"");
+            else
+                tmp.append("<job id=\"SHUF1\" namespace=\"MapReduce\" name=\"SHU\" version=\"1.0\"");
         } else {
             tmp.append("<job id=\"RED00" + index + "\" namespace=\"MapReduce\" name=\"RED\" version=\"1.0\"");
         }
@@ -37,25 +49,51 @@ public class ArMRPreps {
         return tmp.toString();
     }
 
+    /**
+     * Write task flow in temp.xml
+     * Reduce depends on Shuffle. Shuffle depends on Map
+     *
+     * @param dataSize
+     * @param blockSize
+     * @return
+     */
     private static String writeTaskDependency(int dataSize, int blockSize) {
+        //
         StringBuffer tmp = new StringBuffer();
         int numDataBlocks = dataSize / blockSize;
         if (dataSize % blockSize > 0) numDataBlocks++;
 
+        // we have map_sort_spill_percent setting
+        // so we put the dependency based on that setting
+        int firstWave = (int) Math.round(numDataBlocks * ArMRSettings.map_sort_spill_percent);
+        System.out.println("Num data block: " + numDataBlocks);
+        System.out.println("First wave: " + firstWave);
         // dependency of Shuffle to Map
-        for (int i=0; i<numDataBlocks; i++) {
-            tmp.append("<child ref=\"SHUF\"><parent ref=\"MAP00" + i + "\"/></child>\n");
+        for (int i=0; i<firstWave; i++) {
+            tmp.append("<child ref=\"SHUF0\"><parent ref=\"MAP00" + i + "\"/></child>\n");
+        }
+        for (int i=firstWave; i<numDataBlocks; i++) {
+            tmp.append("<child ref=\"SHUF1\"><parent ref=\"MAP00" + i + "\"/></child>\n");
         }
 
         // dependency of Reduce to Shuffle
-        for (int i = 0; i< ArMRSettings.jobReduces; i++) {
-            tmp.append("<child ref=\"RED00" + i + "\"><parent ref=\"SHUF\"/></child>\n");
+        for (int i = 0; i< ArMRSettings.job_reduces; i++) {
+            tmp.append("<child ref=\"RED00" + i + "\"><parent ref=\"SHUF" + i +"\"/></child>\n");
         }
 
         return tmp.toString();
     }
 
+    /**
+     * Write data to temp.xml in config -> dax folder
+     * @param dataSize
+     * @param blockSize
+     * @return
+     */
     public static String prepareData(int dataSize, int blockSize) {
+        ArMRPreps.blockSize = blockSize;
+        ArMRPreps.dataSize = dataSize;
+
         String currentDir = System.getProperty("user.dir");
         String dataPath = currentDir + "/config/dax/temp.xml";
         FileWriter xmlData;
@@ -74,10 +112,14 @@ public class ArMRPreps {
 
             xmlData.write(writeJobLine(0, JobType.SHUFFLE, 0));
 
-            double redRunTime = mapRunTime * (numDataBlocks / ArMRSettings.jobReduces);
-            for (int i=0; i<ArMRSettings.jobReduces; i++) {
-                xmlData.write(writeJobLine(i, JobType.REDUCE, redRunTime));
-            }
+            double red0RunTime = mapRunTime * (numDataBlocks * ArMRSettings.map_sort_spill_percent);
+            double red1RunTime = mapRunTime * (numDataBlocks * (1-ArMRSettings.map_sort_spill_percent));
+            xmlData.write(writeJobLine(0, JobType.REDUCE, red0RunTime));
+            xmlData.write(writeJobLine(1, JobType.REDUCE, red1RunTime));
+
+//            for (int i=0; i<ArMRSettings.jobReduces; i++) {
+//                xmlData.write(writeJobLine(i, JobType.REDUCE, redRunTime));
+//            }
             xmlData.write(writeTaskDependency(dataSize, blockSize));
 
             xmlData.write("</adag>");

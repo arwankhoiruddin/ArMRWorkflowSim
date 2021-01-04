@@ -10,6 +10,8 @@ public class ArMRSettings {
     public static int numHost = 4;
     public static int numCore = 12;
 
+    public static boolean speculate = true;
+
     // number of vm
     // this will be the processing VM
     public static int vmNum = 2;
@@ -19,15 +21,16 @@ public class ArMRSettings {
     /*
     https://ercoppa.github.io/HadoopInternals/HadoopConfigurationParameters.html
     Hadoop settings
-    mapreduce.task.io.sort.mb	100
-    mapreduce.map.sort.spill.percent	0.8
-    mapreduce.task.io.sort.factor	100
-    mapreduce.map.combine.minspills	3
-    mapreduce.job.reduces	1
-    mapreduce.job.ubertask.maxmaps	9
-    mapreduce.job.ubertask.maxreduces	1
-    mapreduce.map.memory.mb	1024
-    mapreduce.reduce.memory.mb	1024
-    mapreduce.reduce.shuffle.merge.percent	0.9
      */
+    public static int task_io_sort_mb = 100;
+    public static double map_sort_spill_percent = 0.8;
+    public static int task_io_sort_factor = 100;
+    public static int map_combine_minspills = 3;
+    public static int job_reduces = 2;
+    public static int job_ubertask_maxmaps = 9;
+    public static int job_ubertask_maxreduces = 1;
+    public static int map_memory_mb = 1024;
+    public static int reduce_memory_mb = 1024;
+    public static double reduce_shuffle_merge_percent = 0.9;
+
 }

@@ -17,12 +17,9 @@ package org.workflowsim;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import org.armrsim.hetero.ArMRTaskDelay;
 import org.armrsim.mapreduce.ArMRSettings;
 import org.armrsim.mapreduce.Reduce;
 import org.armrsim.mapreduce.Shuffle;
@@ -275,14 +272,16 @@ public final class WorkflowParser {
                             ArMRSettings.taskList.add(new org.armrsim.mapreduce.Shuffle(taskID, (int) length));
 
 
+                        // arwan
+                        // add delay due to task speculation and multi tenancy
+                        length = ArMRTaskDelay.addDelay(length);
                         //In case of multiple workflow submission. Make sure the jobIdStartsFrom is consistent.
                         synchronized (this) {
-//                            task = new Task(this.jobIdStartsFrom, length);
-                            if (nodeType.equals("MAP"))
+                            if (nodeType.equals("MAP")) {
                                 task = new org.armrsim.mapreduce.Map(this.jobIdStartsFrom, (int) length);
-                            else if (nodeType.equals("RED"))
+                            } else if (nodeType.equals("RED")) {
                                 task = new org.armrsim.mapreduce.Reduce(this.jobIdStartsFrom, (int) length);
-                            else
+                            } else
                                 task = new org.armrsim.mapreduce.Shuffle(this.jobIdStartsFrom, (int) length);
                             this.jobIdStartsFrom++;
                         }

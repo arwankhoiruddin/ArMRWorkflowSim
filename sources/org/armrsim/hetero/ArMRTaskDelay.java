@@ -24,18 +24,36 @@ public class ArMRTaskDelay {
      * @param taskDuration
      * @return
      */
-    private static double speculativeDelay(double taskDuration) {
+    private static long speculativeDelay(long taskDuration) {
         // run in (replication) number of nodes
         // then generate random number in each nodes to represent the degradation
-        double fastest = 10000000; // to take the fastest execution among the different executions
+        long fastest = 10000000; // to take the fastest execution among the different executions
         for (int i=0; i< ArMRSettings.replication; i++) {
-            double degradation = new Random().nextDouble() * taskDuration;
-            taskDuration += degradation;
+            // add extra time to send the tasks speculated
+            long duration = taskDuration + Math.round(0.01 * taskDuration);
+
+            // incorporate multi tenancy problem in cloud
+            duration = multiTenancyDelay(duration);
             // only take the fastest one
-            if (fastest > taskDuration)
-                fastest = taskDuration;
+            if (fastest > duration)
+                fastest = duration;
         }
         return fastest;
+    }
+
+    /**
+     * Add delay due to multi tenancy problem (network/CPU sharing between cloud users/apps)
+     * @param taskDuration
+     * @return
+     *
+     * Virtualization + Resource Sharing = Multi-Tenancy
+     * H. AlJahdali, A. Albatli, P. Garraghan, P. Townend, L. Lau and J. Xu, "Multi-tenancy in Cloud Computing," 2014 IEEE 8th International Symposium on Service Oriented System Engineering, Oxford, 2014, pp. 344-351, doi: 10.1109/SOSE.2014.50.
+     */
+    private static long multiTenancyDelay(long taskDuration) {
+        long duration = 0;
+        // interference from other application/user
+        duration += (taskDuration * (1 + new Random().nextDouble())); // can double the duration
+        return duration;
     }
 
     /**
@@ -43,9 +61,14 @@ public class ArMRTaskDelay {
      * @param taskDuration
      * @return
      */
-    public static double addDelay(double taskDuration) {
-        double durationWithDelay = 0;
-
+    public static long addDelay(long taskDuration) {
+        long durationWithDelay = 0;
+        // add task speculation
+        if (ArMRSettings.speculate) {
+            durationWithDelay = speculativeDelay(taskDuration);
+        } else {
+            durationWithDelay = multiTenancyDelay(taskDuration);
+        }
         return durationWithDelay;
     }
 }

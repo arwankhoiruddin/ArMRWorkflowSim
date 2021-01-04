@@ -17,6 +17,8 @@ package org.workflowsim;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
+
 import org.cloudbus.cloudsim.Cloudlet;
 import org.cloudbus.cloudsim.CloudletScheduler;
 import org.cloudbus.cloudsim.Consts;
@@ -190,6 +192,7 @@ public class WorkflowDatacenter extends Datacenter {
 //            System.out.println("cloudlet length: " + cloudletLength + " mips: " + mips);
             // add heterogeneity and CPU noise
             double task_runtime = cloudletLength / mips;
+//            start_time += task_runtime * (1 + new Random().nextDouble());
             start_time += task_runtime;
             //Because CloudSim would not let us update end time here
             task.setTaskFinishTime(start_time);

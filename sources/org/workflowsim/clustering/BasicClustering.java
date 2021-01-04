@@ -15,10 +15,8 @@
  */
 package org.workflowsim.clustering;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 import org.workflowsim.FileItem;
 import org.workflowsim.Job;
 import org.workflowsim.Task;
@@ -170,13 +168,6 @@ public class BasicClustering implements ClusteringInterface {
             Job job = new Job(idIndex, length/*, inputFileSize, outputFileSize*/);
             job.setClassType(ClassType.COMPUTE.value);
             for (Task task : taskList) {
-
-                // arwan
-                if (task instanceof org.armrsim.mapreduce.Map) {
-                    System.out.println("Map task");
-                } else {
-                    System.out.println("Other");
-                }
 
                 length += task.getCloudletLength();
 
