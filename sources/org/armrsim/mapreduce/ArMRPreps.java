@@ -25,16 +25,7 @@ public class ArMRPreps {
         if (jobType == JobType.MAP) {
             tmp.append("<job id=\"MAP00" + index + "\" namespace=\"MapReduce\" name=\"MAP\" version=\"1.0\"");
         } else if (jobType == JobType.SHUFFLE) {
-            int numDataBlocks = dataSize / blockSize;
-            if (dataSize % blockSize > 0) numDataBlocks++;
-            // we have map_sort_spill_percent setting
-            // so we put the dependency based on that setting
-            int firstWave = (int) Math.round(numDataBlocks * ArMRSettings.map_sort_spill_percent);
-            // dependency of Shuffle to Map
-            if (index < firstWave)
-                tmp.append("<job id=\"SHUF0\" namespace=\"MapReduce\" name=\"SHU\" version=\"1.0\"");
-            else
-                tmp.append("<job id=\"SHUF1\" namespace=\"MapReduce\" name=\"SHU\" version=\"1.0\"");
+            tmp.append("<job id=\"SHUF" + index +  "\" namespace=\"MapReduce\" name=\"SHU\" version=\"1.0\"");
         } else {
             tmp.append("<job id=\"RED00" + index + "\" namespace=\"MapReduce\" name=\"RED\" version=\"1.0\"");
         }
@@ -111,6 +102,7 @@ public class ArMRPreps {
             }
 
             xmlData.write(writeJobLine(0, JobType.SHUFFLE, 0));
+            xmlData.write(writeJobLine(1, JobType.SHUFFLE, 0));
 
             double red0RunTime = mapRunTime * (numDataBlocks * ArMRSettings.map_sort_spill_percent);
             double red1RunTime = mapRunTime * (numDataBlocks * (1-ArMRSettings.map_sort_spill_percent));

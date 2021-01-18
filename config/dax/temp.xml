@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<adag xmlns="http://pegasus.isi.edu/schema/DAX" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://pegasus.isi.edu/schema/DAX http://pegasus.isi.edu/schema/dax-2.1.xsd" version="2.1" count="1" index="0" name="test" jobCount="25" fileCount="0" childCount="20">
+<job id="MAP000" namespace="MapReduce" name="MAP" version="1.0" runtime="20.0"></job>
+<job id="MAP001" namespace="MapReduce" name="MAP" version="1.0" runtime="20.0"></job>
+<job id="MAP002" namespace="MapReduce" name="MAP" version="1.0" runtime="20.0"></job>
+<job id="MAP003" namespace="MapReduce" name="MAP" version="1.0" runtime="20.0"></job>
+<job id="MAP004" namespace="MapReduce" name="MAP" version="1.0" runtime="20.0"></job>
+<job id="MAP005" namespace="MapReduce" name="MAP" version="1.0" runtime="20.0"></job>
+<job id="MAP006" namespace="MapReduce" name="MAP" version="1.0" runtime="20.0"></job>
+<job id="MAP007" namespace="MapReduce" name="MAP" version="1.0" runtime="20.0"></job>
+<job id="MAP008" namespace="MapReduce" name="MAP" version="1.0" runtime="20.0"></job>
+<job id="MAP009" namespace="MapReduce" name="MAP" version="1.0" runtime="20.0"></job>
+<job id="MAP0010" namespace="MapReduce" name="MAP" version="1.0" runtime="20.0"></job>
+<job id="MAP0011" namespace="MapReduce" name="MAP" version="1.0" runtime="20.0"></job>
+<job id="MAP0012" namespace="MapReduce" name="MAP" version="1.0" runtime="20.0"></job>
+<job id="MAP0013" namespace="MapReduce" name="MAP" version="1.0" runtime="20.0"></job>
+<job id="MAP0014" namespace="MapReduce" name="MAP" version="1.0" runtime="20.0"></job>
+<job id="MAP0015" namespace="MapReduce" name="MAP" version="1.0" runtime="20.0"></job>
+<job id="SHUF0" namespace="MapReduce" name="SHU" version="1.0" runtime="0.0"></job>
+<job id="SHUF1" namespace="MapReduce" name="SHU" version="1.0" runtime="0.0"></job>
+<job id="RED000" namespace="MapReduce" name="RED" version="1.0" runtime="256.0"></job>
+<job id="RED001" namespace="MapReduce" name="RED" version="1.0" runtime="63.999999999999986"></job>
+<child ref="SHUF0"><parent ref="MAP000"/></child>
+<child ref="SHUF0"><parent ref="MAP001"/></child>
+<child ref="SHUF0"><parent ref="MAP002"/></child>
+<child ref="SHUF0"><parent ref="MAP003"/></child>
+<child ref="SHUF0"><parent ref="MAP004"/></child>
+<child ref="SHUF0"><parent ref="MAP005"/></child>
+<child ref="SHUF0"><parent ref="MAP006"/></child>
+<child ref="SHUF0"><parent ref="MAP007"/></child>
+<child ref="SHUF0"><parent ref="MAP008"/></child>
+<child ref="SHUF0"><parent ref="MAP009"/></child>
+<child ref="SHUF0"><parent ref="MAP0010"/></child>
+<child ref="SHUF0"><parent ref="MAP0011"/></child>
+<child ref="SHUF0"><parent ref="MAP0012"/></child>
+<child ref="SHUF1"><parent ref="MAP0013"/></child>
+<child ref="SHUF1"><parent ref="MAP0014"/></child>
+<child ref="SHUF1"><parent ref="MAP0015"/></child>
+<child ref="RED000"><parent ref="SHUF0"/></child>
+<child ref="RED001"><parent ref="SHUF1"/></child>
+</adag>

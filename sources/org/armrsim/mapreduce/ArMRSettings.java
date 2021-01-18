@@ -22,15 +22,33 @@ public class ArMRSettings {
     https://ercoppa.github.io/HadoopInternals/HadoopConfigurationParameters.html
     Hadoop settings
      */
-    public static int task_io_sort_mb = 100;
+
+    // When the contents of the buffer reach a certain threshold size (mapreduce.map.sort.spill.percent,
+    // which has the default value 0.80, or 80%), a background thread will start to spill the contents
     public static double map_sort_spill_percent = 0.8;
+
+    // When the map task starts producing output it is first written to a memory buffer which is 100 MB by defaul
+    public static int task_io_sort_mb = 100;
+
+    // 	The number of streams to merge at once while sorting files. This determines the number of open file handles.
     public static int task_io_sort_factor = 100;
-    public static int map_combine_minspills = 3;
+
+    // number of reducers
     public static int job_reduces = 2;
+
+    // uber jobs will be used only if the number of mappers is less or equal to the value of mapreduce.job.ubertask.maxmaps
     public static int job_ubertask_maxmaps = 9;
+
+    // uber jobs will be used only if the number of reducers is less or equal to the value of mapreduce.job.ubertask.maxreduces
     public static int job_ubertask_maxreduces = 1;
+
+    // memory of each map
     public static int map_memory_mb = 1024;
+
+    // memory of each reduce
     public static int reduce_memory_mb = 1024;
+
+    // the usage threshold at which an in-memory merge will be initiated, expressed as a percentage of the total memory
     public static double reduce_shuffle_merge_percent = 0.9;
 
 }

@@ -13,7 +13,7 @@
  * License for the specific language governing permissions and limitations under
  * the License.
  */
-package org.arwan.armrsim.example;
+package org.armrsim.example;
 
 import java.text.DecimalFormat;
 import java.util.Calendar;
@@ -61,7 +61,7 @@ public class ArMRSim {
         int dataSize = 1*1024;
         int blockSize = 64;
         prepareData(dataSize, blockSize);
-//        runSimulation(1);
+        runSimulation(1);
     }
 
     public static void runSimulation(int numExperiments) {
